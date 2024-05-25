@@ -1,0 +1,8 @@
+# Wikidot账户
+account: ''
+# 循环编辑次数
+cishu: 10
+# 水编辑页面的URL
+editpage: ''
+# Wikidot密码
+password: ''
