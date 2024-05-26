@@ -65,6 +65,13 @@ def edit_page(driver, editpage):
     time.sleep(4)
 
 def main():
+    print("[INFO]读取配置文件...")
+    config = load_config()
+    editpage = config['editpage']
+    account = config['account']
+    password = config['password']
+    cishu = config['cishu']
+    print("[INFO]正在初始化ChromeDriver...")
     options = webdriver.ChromeOptions()
     options.add_argument('--disable-gpu')
     options.add_argument('--headless')
@@ -72,15 +79,7 @@ def main():
     options.add_argument('--blink-settings=imagesEnabled=false')
     options.add_argument('--log-level=2')
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
-
     driver = webdriver.Chrome(options=options)
-
-    config = load_config()
-
-    editpage = config['editpage']
-    account = config['account']
-    password = config['password']
-    cishu = config['cishu']
 
     try:
         os.system("cls")
@@ -90,7 +89,10 @@ def main():
         print ("密码："+"*"*10)
         print ("编辑页："+str(editpage))
         print ("循环次数："+str(cishu))
-        print ("预计完成时间："+str(float((cishu*7+10)/60))+"min")
+        if float((cishu*7+10)/60) < 1:
+            print ("预计完成时间：小于1min")
+        else:
+            print ("预计完成时间："+str(int((float((cishu*7+10)/60))))+"min")
         print ("MineKarma Power by whitelu")
         print ("-"*30)
         login(driver, account, password)
@@ -103,7 +105,7 @@ def main():
     except Exception as e:
         exception_message = str(e)
         if "invalid argument" in exception_message:
-            print("[WARN]程序在登录后发生异常，请检查编辑页面链接地址或是否正确！")
+            print("[WARN]程序在编辑时发生异常，请检查编辑页面链接地址或是否正确！")
             print ("-"*30)
         elif "Stacktrace" in exception_message:
             print("[WARN]程序无编辑页面的权限，请检查账号密码是否正确或页面是否存在编辑锁！")
